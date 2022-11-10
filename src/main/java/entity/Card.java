@@ -16,7 +16,5 @@ public class Card {
 
     private Long cardNumber;
 
-    private User user;
-
     private CardStatus cardStatus;
 }

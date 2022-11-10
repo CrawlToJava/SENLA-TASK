@@ -50,4 +50,25 @@ public class Valid {
         }
         throw new NotAvailableException("Банкомат в данный момент не работает");
     }
+
+    public static boolean isPutMoneyAvailable(BigDecimal howMuchMoneyPutOnTheBalance) {
+        if (howMuchMoneyPutOnTheBalance.compareTo(new BigDecimal(1000000L)) <= 0) {
+            return true;
+        }
+        throw new NotAvailableException("Вы не можете пополнить баланс на сумму больше 1000000");
+    }
+
+    public static boolean isCardAvailable(BankAccount bankAccount) {
+        if (bankAccount.getCard().getCardStatus().equals(CardStatus.AVAILABLE)) {
+            return true;
+        }
+        throw new NotAvailableException("Ваша карта заблокирована!");
+    }
+
+    public static boolean isUserFriendly(BankAccount bankAccount) {
+        if (bankAccount.getUser().getUserStatus().equals(UserStatus.FRIENDLY)) {
+            return true;
+        }
+        throw new NotAvailableException("Вы занесены в черный список");
+    }
 }

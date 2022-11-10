@@ -21,7 +21,7 @@ public interface TransactionService {
 
     void getMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoney);
 
-    void replenishBalance(Long bankAccountId, Long userId, Long cardId);
+    void putMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyPutOnTheBalance);
 
-    void logIn(Long cardNumber, Integer pinCode, Long bankAccountId, Long userId, Long cardId);
+    void logIn(Long cardNumber, Integer pinCode, Long bankAccountId, Long cashMachineId, Long transactionId);
 }

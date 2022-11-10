@@ -23,18 +23,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(Long id) {
-        userList.remove(userList.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует")));
+        userList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует")));
     }
 
     @Override
     public void update(User user) {
-        User updatedUser = userList.stream()
-                .filter(user1 -> user1.getId().equals(user.getId()))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+        User updatedUser = findById(user.getId()).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
         updatedUser.setId(user.getId());
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());

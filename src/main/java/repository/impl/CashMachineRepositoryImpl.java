@@ -17,24 +17,18 @@ public class CashMachineRepositoryImpl implements CashMachineRepository {
         if (cashMachineList.stream().noneMatch(cashMachine1 -> cashMachine1.getId().equals(cashMachine.getId()))) {
             cashMachineList.add(cashMachine);
         } else {
-            throw new NotAvailableException("Карта с таким id уже существует");
+            throw new NotAvailableException("Банкомат с таким id уже существует");
         }
     }
 
     @Override
     public void delete(Long id) {
-        cashMachineList.remove(cashMachineList.stream()
-                .filter(cashMachine -> cashMachine.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует")));
+        cashMachineList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует")));
     }
 
     @Override
     public void update(CashMachine cashMachine) {
-        CashMachine updatedCashMachine = cashMachineList.stream()
-                .filter(cashMachine1 -> cashMachine1.getId().equals(cashMachine.getId()))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+        CashMachine updatedCashMachine = findById(cashMachine.getId()).orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
         updatedCashMachine.setId(cashMachine.getId());
         updatedCashMachine.setCashMachineStatus(cashMachine.getCashMachineStatus());
         updatedCashMachine.setAddress(cashMachine.getAddress());

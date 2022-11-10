@@ -24,18 +24,12 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
 
     @Override
     public void delete(Long id) {
-        bankAccountList.remove(bankAccountList.stream()
-                .filter(bankAccount -> bankAccount.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует")));
+        bankAccountList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует")));
     }
 
     @Override
     public void update(BankAccount bankAccount) {
-        BankAccount updatedBankAccount = bankAccountList.stream()
-                .filter(bankAccount1 -> bankAccount1.getId().equals(bankAccount.getId()))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунт с таким id не существует"));
+        BankAccount updatedBankAccount = findById(bankAccount.getId()).orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
         updatedBankAccount.setId(bankAccount.getId());
         updatedBankAccount.setCard(bankAccount.getCard());
         updatedBankAccount.setUser(bankAccount.getUser());

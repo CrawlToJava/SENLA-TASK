@@ -15,5 +15,7 @@ public class Transaction {
 
     private CashMachine cashMachine;
 
+    private String description;
+
     private TransactionStatus transactionStatus;
 }

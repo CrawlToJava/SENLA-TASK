@@ -1,30 +1,17 @@
 package service.impl;
 
 import entity.BankAccount;
-import entity.BankAccountStatus;
-import entity.Card;
-import entity.User;
-import exception.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import repository.BankAccountRepository;
-import repository.CardRepository;
-import repository.UserRepository;
 import service.BankAccountService;
-import valid.Valid;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class BankAccountServiceImpl implements BankAccountService {
     private BankAccountRepository bankAccountRepository;
-
-    private CardRepository cardRepository;
-
-    private UserRepository userRepository;
 
     @Override
     public void save(BankAccount bankAccount) {

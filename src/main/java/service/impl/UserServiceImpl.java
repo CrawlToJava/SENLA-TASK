@@ -2,14 +2,13 @@ package service.impl;
 
 import entity.User;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import repository.UserRepository;
 import service.UserService;
 
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;

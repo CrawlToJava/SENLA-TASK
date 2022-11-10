@@ -23,21 +23,14 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public void delete(Long id) {
-        cardList.remove(cardList.stream()
-                .filter(card -> card.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует")));
+        cardList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует")));
     }
 
     @Override
     public void update(Card card) {
-        Card updatedCard = cardList.stream()
-                .filter(card1 -> card1.getId().equals(card.getId()))
-                .findFirst()
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+        Card updatedCard = findById(card.getId()).orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
         updatedCard.setId(card.getId());
         updatedCard.setCardNumber(card.getCardNumber());
-        updatedCard.setUser(card.getUser());
         updatedCard.setPinCode(card.getPinCode());
         updatedCard.setCardStatus(card.getCardStatus());
     }

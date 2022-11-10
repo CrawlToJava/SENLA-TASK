@@ -1,12 +1,14 @@
 package service.impl;
 
 import entity.CashMachine;
+import lombok.AllArgsConstructor;
 import repository.CashMachineRepository;
 import service.CashMachineService;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class CashMachineServiceImpl implements CashMachineService {
     private CashMachineRepository cashMachineRepository;
 
