@@ -1,0 +1,53 @@
+package valid;
+
+import entity.*;
+import exception.NotAvailableException;
+
+import java.math.BigDecimal;
+
+public class Valid {
+
+    public static boolean isCardNumberCorrect(Long cardNumber, Card card) {
+        if (cardNumber.equals(card.getCardNumber())) {
+            return true;
+        }
+        throw new NotAvailableException("Номер карты введен не правильно или не существует");
+    }
+
+    public static boolean isPinCodeCorrect(Integer pinCode, Card card) {
+        if (pinCode.equals(card.getPinCode())) {
+            return true;
+        }
+        throw new NotAvailableException("Пинкод введен неверно");
+    }
+
+    public static boolean isAccountAuthorised(BankAccount bankAccount) {
+        if (bankAccount.getBankAccountStatus().equals(BankAccountStatus.AUTHORIZED)) {
+            return true;
+        }
+        throw new NotAvailableException("Вы не авторизировались в аккаунте");
+    }
+
+    public static boolean isEnoughMoneyOnTheBalance(BankAccount bankAccount, BigDecimal howMuchMoneyWithdraw) {
+        if (bankAccount
+                .getAmountOfMoney()
+                .compareTo(howMuchMoneyWithdraw) >= 0) {
+            return true;
+        }
+        throw new NotAvailableException("У вас недосаточно средств на балансе");
+    }
+
+    public static boolean isWithdrawMoneyNotGreaterThanCashMachineLimit(BigDecimal howMuchMoneyWithdraw, CashMachine cashMachine) {
+        if (cashMachine.getCashMachineMoneyLimit().compareTo(howMuchMoneyWithdraw) >= 0) {
+            return true;
+        }
+        throw new NotAvailableException("Вы не можете снять деньги больше этого лимита " + cashMachine.getCashMachineMoneyLimit());
+    }
+
+    public static boolean isCashMachineOpen(CashMachine cashMachine) {
+        if (cashMachine.getCashMachineStatus().equals(CashMachineStatus.OPEN)) {
+            return true;
+        }
+        throw new NotAvailableException("Банкомат в данный момент не работает");
+    }
+}
