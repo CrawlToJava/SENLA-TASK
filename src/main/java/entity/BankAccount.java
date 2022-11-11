@@ -2,6 +2,7 @@ package entity;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class BankAccount {
+public class BankAccount implements Serializable {
 
     private Long id;
 

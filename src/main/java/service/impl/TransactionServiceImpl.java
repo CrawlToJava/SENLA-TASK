@@ -30,7 +30,10 @@ public class TransactionServiceImpl implements TransactionService {
                 && Valid.isPinCodeCorrect(pinCode, bankAccount.getCard())
                 && Valid.isCashMachineOpen(cashMachine)
                 && Valid.isCardAvailable(bankAccount)) {
-            bankAccount.setBankAccountStatus(BankAccountStatus.AUTHORIZED);
+            bankAccountRepository.update(new BankAccount(bankAccount.getId()
+                    , bankAccount.getUser()
+                    , bankAccount.getAmountOfMoney()
+                    , bankAccount.getCard(), BankAccountStatus.AUTHORIZED));
             System.out.println("Вы успешно зашли в аккаунт");
             transactionRepository.save(new Transaction(transactionId, bankAccount, cashMachine, "Авторизация", TransactionStatus.CLOSE));
         }

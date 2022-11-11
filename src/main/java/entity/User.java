@@ -2,13 +2,15 @@ package entity;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @ToString
-public class User {
+public class User implements Serializable {
     private Long id;
 
     private String firstName;

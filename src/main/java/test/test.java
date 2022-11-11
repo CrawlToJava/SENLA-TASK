@@ -11,23 +11,19 @@ import java.math.BigDecimal;
 
 public class test {
     public static void main(String[] args) {
-        BankAccountRepository bankAccountRepository = new BankAccountRepositoryImpl();
-        TransactionRepository transactionRepository = new TransactionRepositoryImpl();
-        CashMachineRepository cashMachineRepository = new CashMachineRepositoryImpl();
         CardRepository cardRepository = new CardRepositoryImpl();
         UserRepository userRepository = new UserRepositoryImpl();
+        BankAccountRepository bankAccountRepository = new BankAccountRepositoryImpl(userRepository, cardRepository);
+        CashMachineRepository cashMachineRepository = new CashMachineRepositoryImpl();
+        TransactionRepository transactionRepository = new TransactionRepositoryImpl(bankAccountRepository,cashMachineRepository);
+
 
         BankAccountService bankAccountService = new BankAccountServiceImpl(bankAccountRepository);
         TransactionService transactionService = new TransactionServiceImpl(bankAccountRepository, transactionRepository, cashMachineRepository);
         CashMachineService cashMachineService = new CashMachineServiceImpl(cashMachineRepository);
         UserService userService = new UserServiceImpl(userRepository);
         CardService cardService = new CardServiceImpl(cardRepository);
-        cashMachineService.save(new CashMachine(1L, "Фабричная 26", new BigDecimal(1000000000L), CashMachineStatus.OPEN));
-        userService.save(new User(1L, "Alana", "Spurging", UserStatus.FRIENDLY));
-        cardService.save(new Card(1L, 1111, 1111111111111111L, CardStatus.AVAILABLE));
-        bankAccountService.save(new BankAccount(1L, userService.findById(1L)
-                .orElseThrow(() -> new NoDataFoundException("Пользователь не найден")), new BigDecimal(122000L), cardService.findById(1L).orElseThrow(() -> new NoDataFoundException("Карта не найдена")), BankAccountStatus.NOT_AUTHORIZED));
-        transactionService.logIn(1111111111111111L, 1111, 1L, 1L, 1L);
+        transactionService.logIn(2222222222222222L, 2222, 1L, 1L, 1L);
         System.out.println(transactionService.findById(1L));
         transactionService.checkBalance(1L, 2L, 1L);
         System.out.println(transactionService.findById(2L));

@@ -2,13 +2,15 @@ package entity;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode
 @ToString
-public class Transaction {
+public class Transaction implements Serializable {
     private Long id;
 
     private BankAccount bankAccount;
