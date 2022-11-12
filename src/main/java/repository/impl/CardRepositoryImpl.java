@@ -46,19 +46,21 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public void delete(Long id) {
         cardList = findAll();
-        cardList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует")));
+        cardList.remove(findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует")));
         refreshAfterDeleting(cardList);
     }
 
     @Override
     public void update(Card card) {
-        Card updatedCard = findById(card.getId()).orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+        Card updatedCard = findById(card.getId())
+                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
         updatedCard.setId(card.getId());
         updatedCard.setCardNumber(card.getCardNumber());
         updatedCard.setPinCode(card.getPinCode());
         updatedCard.setCardStatus(card.getCardStatus());
         delete(card.getId());
-        save(card);
+        save(updatedCard);
     }
 
     @Override

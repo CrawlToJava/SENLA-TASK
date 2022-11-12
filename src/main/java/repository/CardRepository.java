@@ -1,7 +1,6 @@
 package repository;
 
 import entity.Card;
-import entity.User;
 
 import java.util.List;
 import java.util.Optional;

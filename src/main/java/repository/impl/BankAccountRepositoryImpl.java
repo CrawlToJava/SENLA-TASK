@@ -42,9 +42,9 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
             if (bankAccountList.stream().noneMatch(bankAccount1 -> bankAccount1.getId().equals(bankAccount.getId()))) {
                 bankAccountList.add(bankAccount);
                 String[] record = {String.valueOf(bankAccount.getId())
-                        , String.valueOf(bankAccount.getUser().getId())
                         , String.valueOf(bankAccount.getAmountOfMoney())
                         , String.valueOf(bankAccount.getCard().getId())
+                        , String.valueOf(bankAccount.getUser().getId())
                         , String.valueOf(bankAccount.getBankAccountStatus())};
                 writer.writeNext(record);
             } else {
@@ -58,20 +58,22 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
     @Override
     public void delete(Long id) {
         bankAccountList = findAll();
-        bankAccountList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует")));
+        bankAccountList.remove(findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует")));
         refreshAfterDeleting(bankAccountList);
     }
 
     @Override
     public void update(BankAccount bankAccount) {
-        BankAccount updatedBankAccount = findById(bankAccount.getId()).orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+        BankAccount updatedBankAccount = findById(bankAccount.getId())
+                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
         updatedBankAccount.setId(bankAccount.getId());
         updatedBankAccount.setCard(bankAccount.getCard());
         updatedBankAccount.setUser(bankAccount.getUser());
         updatedBankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney());
         updatedBankAccount.setBankAccountStatus(bankAccount.getBankAccountStatus());
         delete(bankAccount.getId());
-        save(bankAccount);
+        save(updatedBankAccount);
     }
 
     @Override
@@ -99,15 +101,15 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
 
     private BankAccount createBankAccount(String[] metadata) {
         Long id = Long.parseLong(metadata[0].replace("\"", ""));
-        User user = userRepository
-                .findById(Long.parseLong(metadata[1].replace("\"", "")))
-                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
-        BigDecimal amountOfMoney = new BigDecimal(Long.parseLong(metadata[2].replace("\"", "")));
+        BigDecimal amountOfMoney = new BigDecimal(Long.parseLong(metadata[1].replace("\"", "")));
         Card card = cardRepository
-                .findById(Long.parseLong(metadata[3].replace("\"", "")))
+                .findById(Long.parseLong(metadata[2].replace("\"", "")))
                 .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+        User user = userRepository
+                .findById(Long.parseLong(metadata[3].replace("\"", "")))
+                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
         BankAccountStatus bankAccountStatus = BankAccountStatus.valueOf(metadata[4].replace("\"", ""));
-        return new BankAccount(id, user, amountOfMoney, card, bankAccountStatus);
+        return new BankAccount(id, amountOfMoney, card, user, bankAccountStatus);
     }
 
     private void refreshAfterDeleting(List<BankAccount> list) {
@@ -116,9 +118,9 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
             writer.print("");
             for (BankAccount bankAccount : list) {
                 String[] record = {String.valueOf(bankAccount.getId())
-                        , String.valueOf(bankAccount.getUser().getId())
                         , String.valueOf(bankAccount.getAmountOfMoney())
                         , String.valueOf(bankAccount.getCard().getId())
+                        , String.valueOf(bankAccount.getUser().getId())
                         , String.valueOf(bankAccount.getBankAccountStatus())};
                 csvWriter.writeNext(record);
             }

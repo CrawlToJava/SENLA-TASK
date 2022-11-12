@@ -15,11 +15,11 @@ public class BankAccount implements Serializable {
 
     private Long id;
 
-    private User user;
-
     private BigDecimal amountOfMoney;
 
     private Card card;
+
+    private User user;
 
     private BankAccountStatus bankAccountStatus;
 }

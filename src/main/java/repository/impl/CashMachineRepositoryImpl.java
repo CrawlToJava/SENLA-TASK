@@ -47,19 +47,21 @@ public class CashMachineRepositoryImpl implements CashMachineRepository {
     @Override
     public void delete(Long id) {
         cashMachineList = findAll();
-        cashMachineList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует")));
+        cashMachineList.remove(findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует")));
         refreshAfterDeleting(cashMachineList);
     }
 
     @Override
     public void update(CashMachine cashMachine) {
-        CashMachine updatedCashMachine = findById(cashMachine.getId()).orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+        CashMachine updatedCashMachine = findById(cashMachine.getId())
+                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
         updatedCashMachine.setId(cashMachine.getId());
         updatedCashMachine.setCashMachineStatus(cashMachine.getCashMachineStatus());
         updatedCashMachine.setAddress(cashMachine.getAddress());
         updatedCashMachine.setCashMachineMoneyLimit(cashMachine.getCashMachineMoneyLimit());
         delete(cashMachine.getId());
-        save(cashMachine);
+        save(updatedCashMachine);
     }
 
     @Override
