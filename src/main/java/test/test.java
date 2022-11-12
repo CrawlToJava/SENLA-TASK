@@ -1,7 +1,5 @@
 package test;
 
-import entity.*;
-import exception.NoDataFoundException;
 import repository.*;
 import repository.impl.*;
 import service.*;
@@ -15,7 +13,7 @@ public class test {
         UserRepository userRepository = new UserRepositoryImpl();
         BankAccountRepository bankAccountRepository = new BankAccountRepositoryImpl(userRepository, cardRepository);
         CashMachineRepository cashMachineRepository = new CashMachineRepositoryImpl();
-        TransactionRepository transactionRepository = new TransactionRepositoryImpl(bankAccountRepository,cashMachineRepository);
+        TransactionRepository transactionRepository = new TransactionRepositoryImpl(bankAccountRepository, cashMachineRepository);
 
 
         BankAccountService bankAccountService = new BankAccountServiceImpl(bankAccountRepository);

@@ -60,20 +60,22 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public void delete(Long id) {
         transactionList = findAll();
-        transactionList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Транзакции с таким id не существует")));
+        transactionList.remove(findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Транзакции с таким id не существует")));
         refreshAfterDeleting(transactionList);
     }
 
     @Override
     public void update(Transaction transaction) {
-        Transaction updatedTransaction = findById(transaction.getId()).orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+        Transaction updatedTransaction = findById(transaction.getId())
+                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
         updatedTransaction.setId(transaction.getId());
         updatedTransaction.setCashMachine(transaction.getCashMachine());
         updatedTransaction.setBankAccount(transaction.getBankAccount());
         updatedTransaction.setTransactionStatus(transaction.getTransactionStatus());
         updatedTransaction.setDescription(transaction.getDescription());
         delete(transaction.getId());
-        save(transaction);
+        save(updatedTransaction);
     }
 
     @Override

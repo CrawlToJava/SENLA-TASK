@@ -1,6 +1,5 @@
 package repository;
 
-import entity.Card;
 import entity.CashMachine;
 
 import java.util.List;

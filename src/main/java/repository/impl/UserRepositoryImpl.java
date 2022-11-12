@@ -46,19 +46,21 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void delete(Long id) {
         userList = findAll();
-        userList.remove(findById(id).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует")));
+        userList.remove(findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует")));
         refreshAfterDeleting(userList);
     }
 
     @Override
     public void update(User user) {
-        User updatedUser = findById(user.getId()).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
+        User updatedUser = findById(user.getId())
+                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
         updatedUser.setId(user.getId());
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
         updatedUser.setUserStatus(user.getUserStatus());
         delete(user.getId());
-        save(user);
+        save(updatedUser);
     }
 
     @Override
