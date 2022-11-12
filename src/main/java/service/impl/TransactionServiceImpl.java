@@ -84,7 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
                 && Valid.isCardAvailable(bankAccount)
                 && Valid.isUserFriendly(bankAccount)) {
             bankAccountRepository.update(new BankAccount(bankAccount.getId()
-                    , bankAccount.getAmountOfMoney()
+                    , bankAccount.getAmountOfMoney().subtract(howMuchMoneyWithdraw)
                     , bankAccount.getCard()
                     , bankAccount.getUser()
                     , BankAccountStatus.AUTHORIZED));
@@ -111,7 +111,7 @@ public class TransactionServiceImpl implements TransactionService {
                 && Valid.isCardAvailable(bankAccount)
                 && Valid.isUserFriendly(bankAccount)) {
             bankAccountRepository.update(new BankAccount(bankAccount.getId()
-                    , bankAccount.getAmountOfMoney()
+                    , bankAccount.getAmountOfMoney().add(howMuchMoneyPutOnTheBalance)
                     , bankAccount.getCard()
                     , bankAccount.getUser()
                     , BankAccountStatus.AUTHORIZED));
