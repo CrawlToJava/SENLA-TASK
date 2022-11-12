@@ -21,13 +21,8 @@ public class test {
         CashMachineService cashMachineService = new CashMachineServiceImpl(cashMachineRepository);
         UserService userService = new UserServiceImpl(userRepository);
         CardService cardService = new CardServiceImpl(cardRepository);
-        transactionService.logIn(2222222222222222L, 2222, 1L, 1L, 1L);
-        System.out.println(transactionService.findById(1L));
-        transactionService.checkBalance(1L, 2L, 1L);
-        System.out.println(transactionService.findById(2L));
-        transactionService.getMoney(1L, 1L, 3L, new BigDecimal(5600L));
-        System.out.println(transactionService.findById(3L));
-        transactionService.putMoney(1L, 1L, 4L, new BigDecimal(1000000L));
-        System.out.println(transactionService.findById(4L));
+        transactionService.checkBalance(1L, 5L, 1L);
+        transactionService.getMoney(1L, 1L, 6L, new BigDecimal(32222L));
+        transactionService.checkBalance(1L, 7L, 1L);
     }
 }
