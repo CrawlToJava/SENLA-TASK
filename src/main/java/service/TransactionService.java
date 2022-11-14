@@ -24,4 +24,6 @@ public interface TransactionService {
     void putMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyPutOnTheBalance);
 
     void logIn(Long cardNumber, Integer pinCode, Long bankAccountId, Long cashMachineId, Long transactionId);
+
+    void logOut(Long bankAccountId, Long cashMachineId, Long transactionId);
 }

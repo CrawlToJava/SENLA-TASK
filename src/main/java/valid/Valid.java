@@ -71,4 +71,12 @@ public class Valid {
         }
         throw new NotAvailableException("Вы занесены в черный список");
     }
+
+    public static boolean isAccountNotAuthorized(BankAccount bankAccount) {
+        if (bankAccount.getBankAccountStatus().equals(BankAccountStatus.NOT_AUTHORIZED)) {
+            return true;
+        }
+        throw new NotAvailableException("Вы уже авторизовались в аккаунте");
+
+    }
 }
