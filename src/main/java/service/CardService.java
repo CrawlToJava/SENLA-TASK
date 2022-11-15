@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CardService {
+    public void blockCardIfAttemptsMoreThenThree(int attempt, Integer pinCode, Long bankAccountId) ;
+
     void save(Card card);
 
     void delete(Long id);
