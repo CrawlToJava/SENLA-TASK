@@ -32,7 +32,7 @@ public class Menu {
                             BankAccount bankAccount = bankAccountService
                                     .findById(bankAccountId)
                                     .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
-                            Valid.isAccountNotAuthorized(bankAccount);
+                            Valid.isAccountNotAuthorized(bankAccount, bankAccountService);
                             Valid.isCardAvailable(bankAccount);
                             System.out.println("Введите номер карты: ");
                             Long cardNumber = scanner.nextLong();

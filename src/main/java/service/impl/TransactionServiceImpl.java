@@ -34,7 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
                 && Valid.isPinCodeCorrect(pinCode, bankAccount.getCard())
                 && Valid.isCashMachineOpen(cashMachine)
                 && Valid.isCardAvailable(bankAccount)
-                && Valid.isAccountNotAuthorized(bankAccount)) {
+                && Valid.isAccountNotAuthorized(bankAccount, new BankAccountServiceImpl(bankAccountRepository))
+                && Valid.isUserFriendly(bankAccount)) {
             bankAccountRepository.update(new BankAccount(bankAccount.getId()
                     , bankAccount.getAmountOfMoney()
                     , bankAccount.getCard()
@@ -105,8 +106,8 @@ public class TransactionServiceImpl implements TransactionService {
                 .findById(cashMachineId)
                 .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
         if (Valid.isAccountAuthorised(bankAccount)
-                && Valid.isEnoughMoneyOnTheBalance(bankAccount, howMuchMoneyWithdraw)
-                && Valid.isWithdrawMoneyNotGreaterThanCashMachineLimit(howMuchMoneyWithdraw, cashMachine)
+                && Valid.isEnoughMoneyOnTheBalance(bankAccount, howMuchMoneyWithdraw, new BankAccountServiceImpl(bankAccountRepository))
+                && Valid.isWithdrawMoneyNotGreaterThanCashMachineLimit(howMuchMoneyWithdraw, cashMachine, bankAccount, new BankAccountServiceImpl(bankAccountRepository))
                 && Valid.isCashMachineOpen(cashMachine)
                 && Valid.isCardAvailable(bankAccount)
                 && Valid.isUserFriendly(bankAccount)) {
@@ -135,7 +136,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
         if (Valid.isAccountAuthorised(bankAccount)
                 && Valid.isCashMachineOpen(cashMachine)
-                && Valid.isPutMoneyAvailable(howMuchMoneyPutOnTheBalance)
+                && Valid.isPutMoneyAvailable(howMuchMoneyPutOnTheBalance, bankAccount, new BankAccountServiceImpl(bankAccountRepository))
                 && Valid.isCardAvailable(bankAccount)
                 && Valid.isUserFriendly(bankAccount)) {
             bankAccountRepository.update(new BankAccount(bankAccount.getId()
