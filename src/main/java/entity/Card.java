@@ -3,7 +3,6 @@ package entity;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor

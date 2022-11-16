@@ -77,6 +77,5 @@ public class Valid {
             return true;
         }
         throw new NotAvailableException("Вы уже авторизовались в аккаунте");
-
     }
 }
