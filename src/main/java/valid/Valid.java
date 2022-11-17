@@ -2,6 +2,7 @@ package valid;
 
 import entity.*;
 import exception.NotAvailableException;
+import service.BankAccountService;
 
 import java.math.BigDecimal;
 
@@ -28,19 +29,21 @@ public class Valid {
         throw new NotAvailableException("Вы не авторизировались в аккаунте");
     }
 
-    public static boolean isEnoughMoneyOnTheBalance(BankAccount bankAccount, BigDecimal howMuchMoneyWithdraw) {
+    public static boolean isEnoughMoneyOnTheBalance(BankAccount bankAccount, BigDecimal howMuchMoneyWithdraw, BankAccountService bankAccountService) {
         if (bankAccount
                 .getAmountOfMoney()
                 .compareTo(howMuchMoneyWithdraw) >= 0) {
             return true;
         }
+        changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
         throw new NotAvailableException("У вас недосаточно средств на балансе");
     }
 
-    public static boolean isWithdrawMoneyNotGreaterThanCashMachineLimit(BigDecimal howMuchMoneyWithdraw, CashMachine cashMachine) {
+    public static boolean isWithdrawMoneyNotGreaterThanCashMachineLimit(BigDecimal howMuchMoneyWithdraw, CashMachine cashMachine, BankAccount bankAccount, BankAccountService bankAccountService) {
         if (cashMachine.getCashMachineMoneyLimit().compareTo(howMuchMoneyWithdraw) >= 0) {
             return true;
         }
+        changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
         throw new NotAvailableException("Вы не можете снять деньги больше этого лимита " + cashMachine.getCashMachineMoneyLimit());
     }
 
@@ -51,10 +54,11 @@ public class Valid {
         throw new NotAvailableException("Банкомат в данный момент не работает");
     }
 
-    public static boolean isPutMoneyAvailable(BigDecimal howMuchMoneyPutOnTheBalance) {
+    public static boolean isPutMoneyAvailable(BigDecimal howMuchMoneyPutOnTheBalance, BankAccount bankAccount, BankAccountService bankAccountService) {
         if (howMuchMoneyPutOnTheBalance.compareTo(new BigDecimal(1000000L)) <= 0) {
             return true;
         }
+        changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
         throw new NotAvailableException("Вы не можете пополнить баланс на сумму больше 1000000");
     }
 
@@ -72,10 +76,19 @@ public class Valid {
         throw new NotAvailableException("Вы занесены в черный список");
     }
 
-    public static boolean isAccountNotAuthorized(BankAccount bankAccount) {
+    public static boolean isAccountNotAuthorized(BankAccount bankAccount, BankAccountService bankAccountService) {
         if (bankAccount.getBankAccountStatus().equals(BankAccountStatus.NOT_AUTHORIZED)) {
             return true;
         }
+        changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
         throw new NotAvailableException("Вы уже авторизовались в аккаунте");
+    }
+
+    private static void changeBankAccountStatusIfConditionFalse(BankAccount bankAccount, BankAccountService bankAccountService) {
+        bankAccountService.update(new BankAccount(bankAccount.getId()
+                , bankAccount.getAmountOfMoney()
+                , bankAccount.getCard()
+                , bankAccount.getUser()
+                , BankAccountStatus.NOT_AUTHORIZED));
     }
 }
