@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SENLA-COURCES-TASK.iml" filepath="$PROJECT_DIR$/.idea/SENLA-COURCES-TASK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SENLA-COURCES-TASK.iml" filepath="$PROJECT_DIR$/SENLA-COURCES-TASK.iml" />
     </modules>
   </component>
 </project>

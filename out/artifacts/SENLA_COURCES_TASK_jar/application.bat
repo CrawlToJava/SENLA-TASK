@@ -1,0 +1,1 @@
+java -jar C:\Users\User\IdeaProjects\SENLA-TECHNICAL-TASK\out\artifacts\SENLA_COURCES_TASK_jar\SENLA-COURCES-TASK.jar
