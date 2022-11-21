@@ -36,6 +36,7 @@ public class Menu {
                             Valid.isCardAvailable(bankAccount);
                             System.out.println("Введите номер карты: ");
                             Long cardNumber = scanner.nextLong();
+                            Valid.isCardNumberExist(cardNumber, bankAccount);
                             System.out.println("Введите пинкод: ");
                             Integer pinCode = scanner.nextInt();
                             attempt++;
@@ -63,9 +64,10 @@ public class Menu {
                                 , howMuchMoneyGet);
                     }
                     case 4 -> {
-                        Valid.isAccountAuthorised(bankAccountService
+                        BankAccount bankAccount = bankAccountService
                                 .findById(bankAccountId)
-                                .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует")));
+                                .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
+                        Valid.isAccountAuthorised(bankAccount);
                         System.out.println("Введите сумму: ");
                         BigDecimal howMuchMoneyPut = new BigDecimal(scanner.nextLong());
                         transactionService.putMoney(bankAccountId
