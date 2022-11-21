@@ -25,7 +25,7 @@ public class CardServiceImpl implements CardService {
                 .findById(bankAccountId)
                 .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
         if (!bankAccount.getCard().getPinCode().equals(pinCode)) {
-            if (attempt > 3) {
+            if (attempt == 3) {
                 cardRepository.update(new Card(bankAccount.getCard().getId()
                         , bankAccount.getCard().getPinCode()
                         , bankAccount.getCard().getCardNumber()

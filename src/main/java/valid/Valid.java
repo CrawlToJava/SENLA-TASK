@@ -40,11 +40,13 @@ public class Valid {
     }
 
     public static boolean isWithdrawMoneyNotGreaterThanCashMachineLimit(BigDecimal howMuchMoneyWithdraw, CashMachine cashMachine, BankAccount bankAccount, BankAccountService bankAccountService) {
-        if (cashMachine.getCashMachineMoneyLimit().compareTo(howMuchMoneyWithdraw) >= 0) {
+        if (cashMachine.getCashMachineMoneyLimit().compareTo(howMuchMoneyWithdraw) >= 0
+                && !howMuchMoneyWithdraw.equals(new BigDecimal(0))
+                && howMuchMoneyWithdraw.compareTo(new BigDecimal(-1)) > 0) {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("Вы не можете снять деньги больше этого лимита " + cashMachine.getCashMachineMoneyLimit());
+        throw new NotAvailableException("Вы не можете снять со счета данную сумму");
     }
 
     public static boolean isCashMachineOpen(CashMachine cashMachine) {
@@ -55,11 +57,13 @@ public class Valid {
     }
 
     public static boolean isPutMoneyAvailable(BigDecimal howMuchMoneyPutOnTheBalance, BankAccount bankAccount, BankAccountService bankAccountService) {
-        if (howMuchMoneyPutOnTheBalance.compareTo(new BigDecimal(1000000L)) <= 0) {
+        if (howMuchMoneyPutOnTheBalance.compareTo(new BigDecimal(1000000L)) <= 0
+                && !howMuchMoneyPutOnTheBalance.equals(new BigDecimal(0))
+                && howMuchMoneyPutOnTheBalance.compareTo(new BigDecimal(-1)) > 0) {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("Вы не можете пополнить баланс на сумму больше 1000000");
+        throw new NotAvailableException("Вы не можете пополнить баланс на данную сумму");
     }
 
     public static boolean isCardAvailable(BankAccount bankAccount) {
@@ -82,6 +86,12 @@ public class Valid {
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
         throw new NotAvailableException("Вы уже авторизовались в аккаунте");
+    }
+
+    public static void isCardNumberExist(Long cardNumber, BankAccount bankAccount) {
+        if (!cardNumber.equals(bankAccount.getCard().getCardNumber())) {
+            throw new NotAvailableException("Карты с таким номером не существует");
+        }
     }
 
     private static void changeBankAccountStatusIfConditionFalse(BankAccount bankAccount, BankAccountService bankAccountService) {

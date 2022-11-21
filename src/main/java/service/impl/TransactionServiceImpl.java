@@ -97,8 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void getMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal
-            howMuchMoneyWithdraw) {
+    public void getMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyWithdraw) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
                 .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
@@ -126,8 +125,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void putMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal
-            howMuchMoneyPutOnTheBalance) {
+    public void putMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyPutOnTheBalance) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
                 .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
