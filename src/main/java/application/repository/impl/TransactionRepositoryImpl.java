@@ -54,7 +54,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                         , String.valueOf(transaction.getTransactionStatus())};
                 writer.writeNext(record);
             } else {
-                throw new NotAvailableException("Транзакция с таким id уже существует");
+                throw new NotAvailableException("Transaction already exists");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -65,14 +65,14 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     public void delete(Long id) {
         transactionList = findAll();
         transactionList.remove(findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Транзакции с таким id не существует")));
+                .orElseThrow(() -> new NoDataFoundException("Transaction doesn't exist")));
         refreshAfterDeleting(transactionList);
     }
 
     @Override
     public void update(Transaction transaction) {
         Transaction updatedTransaction = findById(transaction.getId())
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Transaction doesn't exist"));
         updatedTransaction.setId(transaction.getId());
         updatedTransaction.setCashMachine(transaction.getCashMachine());
         updatedTransaction.setBankAccount(transaction.getBankAccount());
@@ -109,10 +109,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Long id = Long.parseLong(metadata[0].replace("\"", ""));
         BankAccount bankAccount = bankAccountRepository
                 .findById(Long.parseLong(metadata[1].replace("\"", "")))
-                .orElseThrow(() -> new NoDataFoundException("Банковский аккаунт с таким id не найден"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(Long.parseLong(metadata[2].replace("\"", "")))
-                .orElseThrow(() -> new NoDataFoundException("Банкомат с таким id не найден"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         String description = metadata[3];
         TransactionStatus transactionStatus = TransactionStatus.valueOf(metadata[4].replace("\"", ""));
         return new Transaction(id, bankAccount, cashMachine, description, transactionStatus);

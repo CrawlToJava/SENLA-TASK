@@ -52,7 +52,7 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
                         , String.valueOf(bankAccount.getBankAccountStatus())};
                 writer.writeNext(record);
             } else {
-                throw new NotAvailableException("Банковский аккаунт с таким id уже существует");
+                throw new NotAvailableException("Bank account already exists");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -63,14 +63,14 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
     public void delete(Long id) {
         bankAccountList = findAll();
         bankAccountList.remove(findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует")));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist")));
         refreshAfterDeleting(bankAccountList);
     }
 
     @Override
     public void update(BankAccount bankAccount) {
         BankAccount updatedBankAccount = findById(bankAccount.getId())
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         updatedBankAccount.setId(bankAccount.getId());
         updatedBankAccount.setCard(bankAccount.getCard());
         updatedBankAccount.setUser(bankAccount.getUser());
@@ -108,10 +108,10 @@ public class BankAccountRepositoryImpl implements BankAccountRepository, Seriali
         BigDecimal amountOfMoney = new BigDecimal(Long.parseLong(metadata[1].replace("\"", "")));
         Card card = cardRepository
                 .findById(Long.parseLong(metadata[2].replace("\"", "")))
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Card doesn't exist"));
         User user = userRepository
                 .findById(Long.parseLong(metadata[3].replace("\"", "")))
-                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("User doesn't exist"));
         BankAccountStatus bankAccountStatus = BankAccountStatus.valueOf(metadata[4].replace("\"", ""));
         return new BankAccount(id, amountOfMoney, card, user, bankAccountStatus);
     }

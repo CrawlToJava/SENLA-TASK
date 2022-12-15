@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
                         , String.valueOf(user.getUserStatus())};
                 writer.writeNext(record);
             } else {
-                throw new NotAvailableException("Пользователь с таким id уже существует");
+                throw new NotAvailableException("User already exists");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -49,14 +49,14 @@ public class UserRepositoryImpl implements UserRepository {
     public void delete(Long id) {
         userList = findAll();
         userList.remove(findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует")));
+                .orElseThrow(() -> new NoDataFoundException("User is already exist")));
         refreshAfterDeleting(userList);
     }
 
     @Override
     public void update(User user) {
         User updatedUser = findById(user.getId())
-                .orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("User doesn't exist"));
         updatedUser.setId(user.getId());
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());

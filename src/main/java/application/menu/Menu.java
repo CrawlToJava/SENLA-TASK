@@ -32,20 +32,20 @@ public class Menu {
         try (Scanner scanner = new Scanner(System.in)) {
             boolean condition = true;
             while (condition) {
-                System.out.println("Выбирите номер операции:\n1. Авторизоваться\n2. Проверить баланс\n3. Снять деньги со счета\n4. Пополнить счет\n5. Выйти");
+                System.out.println("Enter transaction number:\n1. Log in\n2. Check balance\n3. Withdraw money from the account\n4. Deposit money into the account\n5. Log out");
                 switch (scanner.nextInt()) {
                     case 1 -> {
                         int attempt = 0;
                         while (true) {
                             BankAccount bankAccount = bankAccountService
                                     .findById(bankAccountId)
-                                    .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
+                                    .orElseThrow(() -> new NoDataFoundException("Account doesn't exist"));
                             Valid.isAccountNotAuthorized(bankAccount, bankAccountService);
                             Valid.isCardAvailable(bankAccount);
-                            System.out.println("Введите номер карты: ");
+                            System.out.println("Enter card number: ");
                             Long cardNumber = scanner.nextLong();
                             Valid.isCardNumberExist(cardNumber, bankAccount);
-                            System.out.println("Введите пинкод: ");
+                            System.out.println("Enter PIN code: ");
                             Integer pinCode = scanner.nextInt();
                             attempt++;
                             cardService.blockCardIfAttemptsMoreThenThree(attempt, pinCode, bankAccountId);
@@ -63,8 +63,8 @@ public class Menu {
                     case 3 -> {
                         Valid.isAccountAuthorised(bankAccountService
                                 .findById(bankAccountId)
-                                .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует")));
-                        System.out.println("Введите сумму: ");
+                                .orElseThrow(() -> new NoDataFoundException("Account doesn't exist")));
+                        System.out.println("Enter the amount of money: ");
                         BigDecimal howMuchMoneyGet = new BigDecimal(scanner.nextLong());
                         transactionService.getMoney(bankAccountId
                                 , cashMachineId
@@ -74,9 +74,9 @@ public class Menu {
                     case 4 -> {
                         BankAccount bankAccount = bankAccountService
                                 .findById(bankAccountId)
-                                .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
+                                .orElseThrow(() -> new NoDataFoundException("Account doesn't exist"));
                         Valid.isAccountAuthorised(bankAccount);
-                        System.out.println("Введите сумму: ");
+                        System.out.println("Enter the amount of money: ");
                         BigDecimal howMuchMoneyPut = new BigDecimal(scanner.nextLong());
                         transactionService.putMoney(bankAccountId
                                 , cashMachineId
@@ -87,7 +87,7 @@ public class Menu {
                         transactionService.logOut(bankAccountId, cashMachineId, (long) (Math.random() * 1000000000));
                         condition = false;
                     }
-                    default -> System.out.println("Такой операции не существует");
+                    default -> System.out.println("Transaction doesn't exist");
                 }
             }
         } catch (RuntimeException e) {

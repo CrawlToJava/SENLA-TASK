@@ -12,21 +12,21 @@ public class Valid {
         if (cardNumber.equals(card.getCardNumber())) {
             return true;
         }
-        throw new NotAvailableException("Номер карты введен не правильно или не существует");
+        throw new NotAvailableException("Card number is incorrect");
     }
 
     public static boolean isPinCodeCorrect(Integer pinCode, Card card) {
         if (pinCode.equals(card.getPinCode())) {
             return true;
         }
-        throw new NotAvailableException("Пинкод введен неверно");
+        throw new NotAvailableException("PIN code is incorrect");
     }
 
     public static boolean isAccountAuthorised(BankAccount bankAccount) {
         if (bankAccount.getBankAccountStatus().equals(BankAccountStatus.AUTHORIZED)) {
             return true;
         }
-        throw new NotAvailableException("Вы не авторизировались в аккаунте");
+        throw new NotAvailableException("You are not logged in");
     }
 
     public static boolean isEnoughMoneyOnTheBalance(BankAccount bankAccount, BigDecimal howMuchMoneyWithdraw, BankAccountService bankAccountService) {
@@ -36,7 +36,7 @@ public class Valid {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("У вас недосаточно средств на балансе");
+        throw new NotAvailableException("You don`t have enough money");
     }
 
     public static boolean isWithdrawMoneyNotGreaterThanCashMachineLimit(BigDecimal howMuchMoneyWithdraw, CashMachine cashMachine, BankAccount bankAccount, BankAccountService bankAccountService) {
@@ -46,14 +46,14 @@ public class Valid {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("Вы не можете снять со счета данную сумму");
+        throw new NotAvailableException("You cannot withdraw this amount of money from the account");
     }
 
     public static boolean isCashMachineOpen(CashMachine cashMachine) {
         if (cashMachine.getCashMachineStatus().equals(CashMachineStatus.OPEN)) {
             return true;
         }
-        throw new NotAvailableException("Банкомат в данный момент не работает");
+        throw new NotAvailableException("Cash machine doesn't work");
     }
 
     public static boolean isPutMoneyAvailable(BigDecimal howMuchMoneyPutOnTheBalance, BankAccount bankAccount, BankAccountService bankAccountService) {
@@ -63,21 +63,21 @@ public class Valid {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("Вы не можете пополнить баланс на данную сумму");
+        throw new NotAvailableException("You cannot deposit this amount of money from the account");
     }
 
     public static boolean isCardAvailable(BankAccount bankAccount) {
         if (bankAccount.getCard().getCardStatus().equals(CardStatus.AVAILABLE)) {
             return true;
         }
-        throw new NotAvailableException("Ваша карта заблокирована!");
+        throw new NotAvailableException("Your card is blocked!");
     }
 
     public static boolean isUserFriendly(BankAccount bankAccount) {
         if (bankAccount.getUser().getUserStatus().equals(UserStatus.FRIENDLY)) {
             return true;
         }
-        throw new NotAvailableException("Вы занесены в черный список");
+        throw new NotAvailableException("You are blacklisted");
     }
 
     public static boolean isAccountNotAuthorized(BankAccount bankAccount, BankAccountService bankAccountService) {
@@ -85,12 +85,12 @@ public class Valid {
             return true;
         }
         changeBankAccountStatusIfConditionFalse(bankAccount, bankAccountService);
-        throw new NotAvailableException("Вы уже авторизовались в аккаунте");
+        throw new NotAvailableException("You are not logged in");
     }
 
     public static void isCardNumberExist(Long cardNumber, BankAccount bankAccount) {
         if (!cardNumber.equals(bankAccount.getCard().getCardNumber())) {
-            throw new NotAvailableException("Карты с таким номером не существует");
+            throw new NotAvailableException("Card doesn't exist");
         }
     }
 
