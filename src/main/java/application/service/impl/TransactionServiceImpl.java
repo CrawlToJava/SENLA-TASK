@@ -34,10 +34,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void logIn(Long cardNumber, Integer pinCode, Long bankAccountId, Long cashMachineId, Long transactionId) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(cashMachineId)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         if (Valid.isCardNumberCorrect(cardNumber, bankAccount.getCard())
                 && Valid.isPinCodeCorrect(pinCode, bankAccount.getCard())
                 && Valid.isCashMachineOpen(cashMachine)
@@ -52,9 +52,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(new Transaction(transactionId
                     , bankAccount
                     , cashMachine
-                    , "Авторизация"
+                    , "Log in"
                     , TransactionStatus.CLOSE));
-            System.out.println("Вы успешно зашли в аккаунт");
+            System.out.println("You have successfully logged in");
         }
     }
 
@@ -62,10 +62,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void logOut(Long bankAccountId, Long cashMachineId, Long transactionId) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(cashMachineId)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         if (Valid.isCashMachineOpen(cashMachine)
                 && Valid.isCardAvailable(bankAccount)
                 && Valid.isAccountAuthorised(bankAccount)) {
@@ -77,9 +77,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(new Transaction(transactionId
                     , bankAccount
                     , cashMachine
-                    , "Деавторизация"
+                    , "Log out"
                     , TransactionStatus.CLOSE));
-            System.out.println("Вы успешно вышли из аккаунта");
+            System.out.println("You have successfully logged out");
         }
     }
 
@@ -87,10 +87,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void checkBalance(Long bankAccountId, Long transactionId, Long cashMachineId) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(cashMachineId)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         if (Valid.isAccountAuthorised(bankAccount)
                 && Valid.isCashMachineOpen(cashMachine)
                 && Valid.isCardAvailable(bankAccount)
@@ -98,9 +98,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(new Transaction(transactionId
                     , bankAccount
                     , cashMachine
-                    , "Проверка баланса"
+                    , "Balance check"
                     , TransactionStatus.CLOSE));
-            System.out.println("Ваш баланс: " + bankAccount.getAmountOfMoney());
+            System.out.println("Your balance: " + bankAccount.getAmountOfMoney());
         }
     }
 
@@ -108,10 +108,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void getMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyWithdraw) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(cashMachineId)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         if (Valid.isAccountAuthorised(bankAccount)
                 && Valid.isEnoughMoneyOnTheBalance(bankAccount, howMuchMoneyWithdraw, new BankAccountServiceImpl(bankAccountRepository))
                 && Valid.isWithdrawMoneyNotGreaterThanCashMachineLimit(howMuchMoneyWithdraw, cashMachine, bankAccount, new BankAccountServiceImpl(bankAccountRepository))
@@ -126,9 +126,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(new Transaction(transactionId
                     , bankAccount
                     , cashMachine
-                    , "Снятие денег со счета"
+                    , "Withdrawing money from the account"
                     , TransactionStatus.CLOSE));
-            System.out.println("Вы успешно сняли со счета " + howMuchMoneyWithdraw);
+            System.out.println("You have successfully withdrew money from the account");
         }
     }
 
@@ -136,10 +136,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void putMoney(Long bankAccountId, Long cashMachineId, Long transactionId, BigDecimal howMuchMoneyPutOnTheBalance) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         CashMachine cashMachine = cashMachineRepository
                 .findById(cashMachineId)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         if (Valid.isAccountAuthorised(bankAccount)
                 && Valid.isCashMachineOpen(cashMachine)
                 && Valid.isPutMoneyAvailable(howMuchMoneyPutOnTheBalance, bankAccount, new BankAccountServiceImpl(bankAccountRepository))
@@ -153,9 +153,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(new Transaction(transactionId
                     , bankAccount
                     , cashMachine
-                    , "Пополнение счета"
+                    , "Depositing money into the account"
                     , TransactionStatus.CLOSE));
-            System.out.println("Вы успешно пополнили счет на сумму " + howMuchMoneyPutOnTheBalance);
+            System.out.println("You have successfully deposited money into your account");
         }
     }
 

@@ -39,7 +39,7 @@ public class CashMachineRepositoryImpl implements CashMachineRepository {
                         , String.valueOf(cashMachine.getCashMachineStatus())};
                 writer.writeNext(record);
             } else {
-                throw new NotAvailableException("Банкомат с таким id уже существует");
+                throw new NotAvailableException("Cash machine already exists");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,14 +50,14 @@ public class CashMachineRepositoryImpl implements CashMachineRepository {
     public void delete(Long id) {
         cashMachineList = findAll();
         cashMachineList.remove(findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует")));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist")));
         refreshAfterDeleting(cashMachineList);
     }
 
     @Override
     public void update(CashMachine cashMachine) {
         CashMachine updatedCashMachine = findById(cashMachine.getId())
-                .orElseThrow(() -> new NoDataFoundException("Банкомата с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Cash machine doesn't exist"));
         updatedCashMachine.setId(cashMachine.getId());
         updatedCashMachine.setCashMachineStatus(cashMachine.getCashMachineStatus());
         updatedCashMachine.setAddress(cashMachine.getAddress());

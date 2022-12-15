@@ -38,7 +38,7 @@ public class CardRepositoryImpl implements CardRepository {
                         , String.valueOf(card.getCardStatus())};
                 writer.writeNext(record);
             } else {
-                throw new NotAvailableException("Карта с таким id уже существует");
+                throw new NotAvailableException("Card already exists");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -49,14 +49,14 @@ public class CardRepositoryImpl implements CardRepository {
     public void delete(Long id) {
         cardList = findAll();
         cardList.remove(findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует")));
+                .orElseThrow(() -> new NoDataFoundException("Card doesn't exist")));
         refreshAfterDeleting(cardList);
     }
 
     @Override
     public void update(Card card) {
         Card updatedCard = findById(card.getId())
-                .orElseThrow(() -> new NoDataFoundException("Карты с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Card doesn't exist"));
         updatedCard.setId(card.getId());
         updatedCard.setCardNumber(card.getCardNumber());
         updatedCard.setPinCode(card.getPinCode());

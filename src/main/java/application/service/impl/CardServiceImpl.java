@@ -30,16 +30,16 @@ public class CardServiceImpl implements CardService {
     public void blockCardIfAttemptsMoreThenThree(int attempt, Integer pinCode, Long bankAccountId) {
         BankAccount bankAccount = bankAccountRepository
                 .findById(bankAccountId)
-                .orElseThrow(() -> new NoDataFoundException("Банковского аккаунта с таким id не существует"));
+                .orElseThrow(() -> new NoDataFoundException("Bank account doesn't exist"));
         if (!bankAccount.getCard().getPinCode().equals(pinCode)) {
             if (attempt == 3) {
                 cardRepository.update(new Card(bankAccount.getCard().getId()
                         , bankAccount.getCard().getPinCode()
                         , bankAccount.getCard().getCardNumber()
                         , CardStatus.BLOCKED));
-                throw new NotAvailableException("Ваша карта заблокирована!");
+                throw new NotAvailableException("Your card is blocked!");
             }
-            System.out.println("Пинкод введен не правильно, попробуйте еще раз");
+            System.out.println("PIN code entered incorrectly, please try again");
         }
     }
 
