@@ -7,14 +7,15 @@ import application.repository.CashMachineRepository;
 import application.repository.TransactionRepository;
 import application.service.TransactionService;
 import application.valid.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@Service("transactionService")
+@Service
+@RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
     private final BankAccountRepository bankAccountRepository;
@@ -22,13 +23,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     private final CashMachineRepository cashMachineRepository;
-
-    @Autowired
-    public TransactionServiceImpl(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository, CashMachineRepository cashMachineRepository) {
-        this.bankAccountRepository = bankAccountRepository;
-        this.transactionRepository = transactionRepository;
-        this.cashMachineRepository = cashMachineRepository;
-    }
 
     @Override
     public void logIn(Long cardNumber, Integer pinCode, Long bankAccountId, Long cashMachineId, Long transactionId) {

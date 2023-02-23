@@ -1,11 +1,12 @@
 package application.repository.impl;
 
-import au.com.bytecode.opencsv.CSVWriter;
 import application.entity.Card;
 import application.entity.CardStatus;
 import application.exception.NoDataFoundException;
 import application.exception.NotAvailableException;
 import application.repository.CardRepository;
+import au.com.bytecode.opencsv.CSVWriter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("cardRepository")
+@Repository
+@RequiredArgsConstructor
 public class CardRepositoryImpl implements CardRepository {
     private List<Card> cardList = new ArrayList<>();
 

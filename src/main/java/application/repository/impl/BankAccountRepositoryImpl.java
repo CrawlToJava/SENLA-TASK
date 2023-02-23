@@ -1,6 +1,5 @@
 package application.repository.impl;
 
-import au.com.bytecode.opencsv.CSVWriter;
 import application.entity.BankAccount;
 import application.entity.BankAccountStatus;
 import application.entity.Card;
@@ -10,7 +9,8 @@ import application.exception.NotAvailableException;
 import application.repository.BankAccountRepository;
 import application.repository.CardRepository;
 import application.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import au.com.bytecode.opencsv.CSVWriter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -23,19 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("bankAccountRepository")
+@Repository
+@RequiredArgsConstructor
 public class BankAccountRepositoryImpl implements BankAccountRepository, Serializable {
     private List<BankAccount> bankAccountList = new ArrayList<>();
 
     private final UserRepository userRepository;
 
     private final CardRepository cardRepository;
-
-    @Autowired
-    public BankAccountRepositoryImpl(UserRepository userRepository, CardRepository cardRepository) {
-        this.userRepository = userRepository;
-        this.cardRepository = cardRepository;
-    }
 
     private final String dataBase = "C:\\Users\\User\\IdeaProjects\\SENLA-TECHNICAL-TASK\\src\\main\\java\\data\\BankAccounts.csv";
 

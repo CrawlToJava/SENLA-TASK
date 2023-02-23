@@ -6,6 +6,7 @@ import application.entity.UserStatus;
 import application.exception.NoDataFoundException;
 import application.exception.NotAvailableException;
 import application.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("userRepository")
+@Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private List<User> userList = new ArrayList<>();
 

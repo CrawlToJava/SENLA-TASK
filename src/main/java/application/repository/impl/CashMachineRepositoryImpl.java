@@ -6,6 +6,7 @@ import application.entity.CashMachineStatus;
 import application.exception.NoDataFoundException;
 import application.exception.NotAvailableException;
 import application.repository.CashMachineRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("cashMachineRepository")
+@Repository
+@RequiredArgsConstructor
 public class CashMachineRepositoryImpl implements CashMachineRepository {
     private List<CashMachine> cashMachineList = new ArrayList<>();
 
