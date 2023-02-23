@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-@Component("menu")
+@Component
 public class Menu {
 
     private final TransactionService transactionService;

@@ -3,20 +3,16 @@ package application.service.impl;
 import application.entity.CashMachine;
 import application.repository.CashMachineRepository;
 import application.service.CashMachineService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service("cashMachineService")
+@Service
+@RequiredArgsConstructor
 public class CashMachineServiceImpl implements CashMachineService {
     private final CashMachineRepository cashMachineRepository;
-
-    @Autowired
-    public CashMachineServiceImpl(CashMachineRepository cashMachineRepository) {
-        this.cashMachineRepository = cashMachineRepository;
-    }
 
     @Override
     public void save(CashMachine cashMachine) {

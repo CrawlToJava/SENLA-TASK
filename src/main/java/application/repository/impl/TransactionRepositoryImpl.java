@@ -1,6 +1,5 @@
 package application.repository.impl;
 
-import au.com.bytecode.opencsv.CSVWriter;
 import application.entity.BankAccount;
 import application.entity.CashMachine;
 import application.entity.Transaction;
@@ -10,7 +9,8 @@ import application.exception.NotAvailableException;
 import application.repository.BankAccountRepository;
 import application.repository.CashMachineRepository;
 import application.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import au.com.bytecode.opencsv.CSVWriter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("transactionRepository")
+@Repository
+@RequiredArgsConstructor
 public class TransactionRepositoryImpl implements TransactionRepository {
     private List<Transaction> transactionList = new ArrayList<>();
 
@@ -33,13 +34,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     private final CashMachineRepository cashMachineRepository;
 
-    @Autowired
-    public TransactionRepositoryImpl(BankAccountRepository bankAccountRepository, CashMachineRepository cashMachineRepository) {
-        this.bankAccountRepository = bankAccountRepository;
-        this.cashMachineRepository = cashMachineRepository;
-    }
-
-    private final String dataBase = "C:\\Users\\User\\IdeaProjects\\SENLA-TECHNICAL-TASK\\src\\main\\java\\data\\Transactions.csv";
+    private final String dataBase = "C:\\\\Users\\\\User\\\\IdeaProjects\\\\SENLA-TECHNICAL-TASK\\\\src\\\\main\\\\java\\\\data\\\\Transactions.csv";
 
     @Override
     public void save(Transaction transaction) {
